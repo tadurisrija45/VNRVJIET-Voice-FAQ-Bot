@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VNR VJIET | Voice FAQ Assistant</title>
+    <link rel="icon" type="image/png" href="/static/images/vnrvjiet-logo.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand-group">
+                <img src="/static/images/vnrvjiet-logo.png" alt="VNR VJIET Logo" class="brand-logo">
+                <div class="brand-text">
+                    <h1 class="brand-title">VNR VJIET</h1>
+                    <span class="brand-badge">Voice FAQ Assistant</span>
+                </div>
+            </div>
+            <div class="header-badges">
+                <span class="badge-accreditation">NAAC A++</span>
+                <span class="badge-autonomous">Autonomous JNTUH</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-container">
+        <!-- Hero Header -->
+        <section class="hero-section">
+            <h2 class="hero-title">Ask questions about VNR VJIET using your voice or text.</h2>
+            <p class="hero-subtitle">Instant voice-enabled answers on admissions, courses, fees, placements, campus life, hostels, and more.</p>
+        </section>
+
+        <!-- Central Voice & Text Query Card -->
+        <section class="card voice-card" id="voiceSection">
+            <div class="card-header-center">
+                <div class="section-icon">🎤</div>
+                <h2 class="section-heading">Ask Your Question</h2>
+                <p class="section-subtext" id="statusInstruction">Click the microphone and speak your question</p>
+            </div>
+
+            <!-- Voice Record Button Container -->
+            <div class="mic-container">
+                <div class="mic-pulse-ring" id="pulseRing1"></div>
+                <div class="mic-pulse-ring" id="pulseRing2"></div>
+                <button type="button" class="mic-button" id="recordButton" title="Click to Speak" aria-label="Start Voice Recording">
+                    <span class="mic-icon" id="micIcon">🎤</span>
+                </button>
+            </div>
+
+            <!-- Live Status Indicator -->
+            <div class="status-indicator-box">
+                <span class="status-badge" id="recordStatus">Ready to listen</span>
+                <div class="live-transcript" id="liveTranscript" hidden></div>
+            </div>
+
+            <!-- Separator -->
+            <div class="divider-or">
+                <span>OR TYPE YOUR QUESTION</span>
+            </div>
+
+            <!-- Text Input Box -->
+            <form class="text-input-form" id="questionForm">
+                <div class="input-wrapper">
+                    <input 
+                        type="text" 
+                        id="questionInput" 
+                        class="question-input" 
+                        placeholder="Type your question here..." 
+                        autocomplete="off"
+                        required
+                    >
+                    <button type="submit" class="btn-ask" id="askButton">
+                        <span>Ask</span>
+                        <svg class="send-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Suggested Quick FAQ Chips -->
+            <div class="suggested-chips-container">
+                <span class="chips-label">Popular Topics:</span>
+                <div class="chips-list">
+                    <button type="button" class="faq-chip" data-query="Where is VNR VJIET located?">📍 Location</button>
+                    <button type="button" class="faq-chip" data-query="What undergraduate B.Tech courses are offered?">🎓 B.Tech Branches</button>
+                    <button type="button" class="faq-chip" data-query="What is the highest package in campus placements?">💼 Placements & Package</button>
+                    <button type="button" class="faq-chip" data-query="What is the EAMCET code for VNR VJIET?">🏷️ EAMCET Code</button>
+                    <button type="button" class="faq-chip" data-query="Are hostel facilities available for boys and girls?">🏢 Hostels</button>
+                    <button type="button" class="faq-chip" data-query="What are the major annual fests at VNR VJIET?">🎉 Sintillashunz Fest</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conversation History Area -->
+        <section class="conversation-section" id="conversationSection">
+            <div class="conversation-header">
+                <h3 class="conversation-title">
+                    <span class="title-icon">💬</span> Conversation History
+                </h3>
+                <button type="button" class="btn-clear-chat" id="clearChatButton" title="Clear chat history">
+                    🗑️ Clear Chat
+                </button>
+            </div>
+
+            <!-- Chat Messages Container -->
+            <div class="chat-stream" id="chatStream">
+                <!-- Initial Empty State -->
+                <div class="empty-state" id="emptyState">
+                    <div class="empty-icon">💡</div>
+                    <p class="empty-text">No questions asked yet.</p>
+                    <p class="empty-subtext">Click the microphone above or type a question to get started.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Pipeline Explanation Card -->
+        <section class="card pipeline-card">
+            <h3 class="pipeline-title">What is happening?</h3>
+            <div class="pipeline-flow">
+                <div class="pipeline-step" id="stepSpeech">
+                    <span class="step-icon">🎤</span>
+                    <span class="step-label">Speech</span>
+                </div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step" id="stepSTT">
+                    <span class="step-icon">📄</span>
+                    <span class="step-label">STT</span>
+                </div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step" id="stepLLM">
+                    <span class="step-icon">🧠</span>
+                    <span class="step-label">FAQ & LLM</span>
+                </div>
+                <span class="pipeline-arrow">→</span>
+                <div class="pipeline-step" id="stepTTS">
+                    <span class="step-icon">🔊</span>
+                    <span class="step-label">TTS</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Global Toast Alert -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- Application Footer -->
+    <footer class="app-footer">
+        <p>© 2026 <strong>VNR Vignana Jyothi Institute of Engineering and Technology</strong>. All Rights Reserved.</p>
+        <p class="footer-links">
+            <a href="http://www.vnrvjiet.ac.in" target="_blank" rel="noopener">Official Website</a> • 
+            <a href="mailto:postbox@vnrvjiet.in">postbox@vnrvjiet.in</a> • 
+            <span>Bachupally, Hyderabad - 500090</span>
+        </p>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
