@@ -1,28 +1,108 @@
 # VNR VJIET Voice FAQ Assistant
 
-An intelligent, voice-in and voice-out FAQ web application built for **Vallurupalli Nageswara Rao Vignana Jyothi Institute of Engineering and Technology (VNR VJIET)**, Hyderabad.
+An intelligent **voice-enabled FAQ web application** developed for **VNR Vignana Jyothi Institute of Engineering and Technology (VNR VJIET), Hyderabad**.
 
-The system allows students, parents, and visitors to ask questions about the college using either **voice** or **text**, performs intelligent hybrid retrieval over the comprehensive college knowledge base, generates grounded answers using OpenAI LLM (or direct verified database retrieval), and speaks the answer aloud using speech synthesis.
-
----
-
-## 📌 Features
-
-- 🎤 **Voice Input (Speech-to-Text)**: Speak naturally into your browser microphone; questions are transcribed in real-time.
-- ⌨️ **Text Input**: Type questions with automatic validation and suggestion chips for popular topics.
-- 📚 **VNR VJIET Knowledge Base**: Rich CSV database covering admissions, branches, cutoffs, fee structure, placements, fests, hostels, transport, and campus facilities.
-- 🔍 **Hybrid Search Engine**: Combines TF-IDF vectorization, Cosine Similarity, Keyword Overlap, and Fuzzy Typo Matching for high-precision retrieval.
-- 🧠 **AI-Powered Grounded Answers**: OpenAI LLM (`gpt-4o-mini`) integration with strict anti-hallucination prompting.
-- 🛡️ **Zero Hallucination Guarantee**: If information is not in the database, the bot safely responds: *"I'm sorry, I couldn't find that information in the VNR VJIET FAQ database."*
-- 🔊 **Voice Output (Text-to-Speech)**: Integrated browser speech synthesis with customized phonetic pronunciation for college terms (e.g. *VNR VJIET*, *JNTUH*, *LPA*, *INR*, *NAAC A++*).
-- 💬 **Conversation History & Clear Chat**: View the ongoing discussion and clear chat history at any time.
-- 📱 **Modern Responsive UI**: Clean, academic-themed design optimized for mobile, tablet, and desktop screens.
+The application allows students, parents, and visitors to ask questions about VNR VJIET using **voice or text**. Questions are processed through a hybrid FAQ retrieval engine using **TF-IDF, Cosine Similarity, keyword overlap, fuzzy matching, and synonym expansion**. Relevant verified information is retrieved from a structured college FAQ database, and the application can generate grounded responses using an OpenAI LLM.
 
 ---
 
-## 🏗️ Mandatory Project Structure
+## 📌 Project Overview
 
-This project strictly adheres to the following fixed architecture:
+The main goal of this project is to provide a simple and accessible way for users to obtain information about VNR VJIET without manually searching through multiple college resources.
+
+The assistant supports:
+
+* 🎤 Voice-based questions
+* ⌨️ Text-based questions
+* 🔍 Intelligent FAQ retrieval
+* 🧠 Grounded AI responses
+* 🔊 Voice-based answers
+* 💬 Conversation history
+* 📱 Responsive web interface
+
+The knowledge base currently contains **147 verified FAQ records** covering major areas of the institution.
+
+---
+
+## ✨ Features
+
+### 🎤 Voice Input
+
+Users can speak their questions through the browser microphone. The browser's Web Speech API converts speech into text.
+
+### ⌨️ Text Input
+
+Users can also type their questions directly into the application.
+
+### 📚 VNR VJIET Knowledge Base
+
+The application uses:
+
+```text
+data/VNRVJIET_COMPLETE_DATABASE.csv
+```
+
+The database contains **147 FAQ records** covering categories such as:
+
+* College information
+* Academics
+* Admissions
+* B.Tech Programs
+* PG Programs
+* Campus
+* Hostel
+* Library
+* Placements
+* Student Services & Contacts
+* General Navigation
+
+### 🔍 Hybrid FAQ Search
+
+The search engine combines multiple techniques:
+
+1. TF-IDF Vectorization
+2. Cosine Similarity
+3. Keyword Overlap
+4. Fuzzy String Matching
+5. Query Synonym Expansion
+6. Weighted relevance scoring
+7. Similarity threshold filtering
+
+This combination improves retrieval when users phrase the same question in different ways.
+
+### 🧠 Grounded AI Responses
+
+The application can use an OpenAI LLM to generate responses based on the retrieved FAQ information.
+
+The system is designed to keep responses grounded in the retrieved knowledge base.
+
+### 🛡️ Unknown Question Handling
+
+When a question does not meet the required relevance threshold, the system can safely return:
+
+> I'm sorry, I couldn't find that information in the VNR VJIET FAQ database.
+
+### 🔊 Voice Output
+
+The application uses browser speech synthesis to read the assistant's response aloud.
+
+### 💬 Conversation History
+
+Users can view their current questions and assistant responses in the conversation interface.
+
+### 🗑️ Clear Chat
+
+Users can clear the current conversation and start a new interaction.
+
+### 📱 Responsive Interface
+
+The frontend is designed to work across desktop, tablet, and mobile screen sizes.
+
+---
+
+## 🏗️ Project Structure
+
+The project follows the required fixed structure:
 
 ```text
 VNRVJIET-Voice-FAQ-Bot/
@@ -62,66 +142,150 @@ VNRVJIET-Voice-FAQ-Bot/
     └── index.html
 ```
 
----
-
-## 🛠️ Tech Stack & Technologies
-
-| Layer | Technologies | Purpose |
-|---|---|---|
-| **Frontend** | HTML5, CSS3, JavaScript (ES6+) | Modern academic responsive UI, speech recognition & synthesis |
-| **Backend** | Python 3, Flask | RESTful API (`/api/ask`), route handling, server logic |
-| **Knowledge Base** | CSV (`pandas`, `scikit-learn`) | TF-IDF + Cosine Similarity hybrid semantic search |
-| **AI / LLM** | OpenAI API (`gpt-4o-mini`) | Context-grounded conversational response generation |
-| **Voice / Speech** | Web Speech API (`SpeechRecognition`, `SpeechSynthesis`) | Browser-native low-latency voice-in and voice-out |
+> **Security note:** `.env` is used only for local configuration and is excluded from Git using `.gitignore`. The repository contains `.env.example` instead.
 
 ---
 
-## 🔄 Complete Voice Flow Architecture
+## 🛠️ Technology Stack
+
+| Layer                 | Technology       | Purpose                                |
+| --------------------- | ---------------- | -------------------------------------- |
+| Frontend              | HTML5            | Web page structure                     |
+| Styling               | CSS3             | Responsive user interface              |
+| Client-side Logic     | JavaScript ES6+  | User interaction and API communication |
+| Backend               | Python 3         | Application logic                      |
+| Web Framework         | Flask            | Backend server and REST API            |
+| Database              | CSV              | VNR VJIET FAQ knowledge base           |
+| Data Processing       | Pandas           | Reading and processing FAQ data        |
+| Information Retrieval | Scikit-learn     | TF-IDF and Cosine Similarity           |
+| Fuzzy Matching        | Python `difflib` | Approximate question matching          |
+| AI                    | OpenAI API       | Grounded response generation           |
+| Speech Recognition    | Web Speech API   | Voice-to-text                          |
+| Speech Synthesis      | Web Speech API   | Text-to-voice                          |
+
+---
+
+## 🔄 System Workflow
 
 ```text
-User speaks question
-         ↓
-Browser Microphone
-         ↓
-Web Speech API (SpeechRecognition)
-         ↓
-Question Transcript
-         ↓
-JavaScript Fetch (POST /api/ask)
-         ↓
-Flask Application (app.py)
-         ↓
-FAQ Search Engine (services/faq_search.py)
-         ↓
-Searches data/VNRVJIET_COMPLETE_DATABASE.csv
-         ↓
-Retrieved FAQ Context
-         ↓
-LLM Grounding (services/llm.py)
-         ↓
-Validated JSON Response
-         ↓
-Frontend Renders Conversation Bubble
-         ↓
-Speech Synthesis (services/text_to_speech.py / window.speechSynthesis)
-         ↓
-🔊 User Hears Spoken Answer
+                    USER
+                     │
+              ┌──────┴──────┐
+              │             │
+           🎤 Voice       ⌨️ Text
+              │             │
+              ▼             │
+       Speech Recognition   │
+              │             │
+              └──────┬──────┘
+                     ▼
+              Question Text
+                     │
+                     ▼
+              Flask Backend
+                     │
+                     ▼
+             FAQ Search Engine
+                     │
+        ┌────────────┼────────────┐
+        ▼            ▼            ▼
+      TF-IDF      Keywords      Fuzzy
+        │            │            │
+        └────────────┼────────────┘
+                     ▼
+              Relevance Score
+                     │
+                     ▼
+             Relevant FAQ Data
+                     │
+                     ▼
+             Grounded LLM Layer
+                     │
+                     ▼
+              Final Answer
+                     │
+              ┌──────┴──────┐
+              ▼             ▼
+        Display Answer    🔊 Speech
 ```
 
 ---
 
-## 🚀 Installation & Setup (Windows PowerShell)
+## 🔎 FAQ Search Method
 
-### 1. Clone or Navigate to Project Directory
+The FAQ search engine calculates a combined relevance score using:
 
-```powershell
-cd c:\Users\tadur\OneDrive\Desktop\VNRVJIET-Voice-FAQ-Bot
+```text
+Combined Score =
+    50% × Cosine Similarity
+  + 30% × Keyword Overlap
+  + 20% × Fuzzy Matching
 ```
 
-### 2. Create and Activate Virtual Environment
+The system also expands selected query words using predefined synonyms before performing TF-IDF retrieval.
+
+For example:
+
+```text
+User Query:
+"Where is the college?"
+
+Expanded Query:
+"where location address place area reach college"
+```
+
+This helps the system recognize different ways of asking similar questions.
+
+---
+
+## 📊 Knowledge Base
+
+The current database contains:
+
+```text
+Total FAQ Records: 147
+Empty Questions:   0
+Empty Answers:     0
+Duplicate Questions: 0
+Categories:        11
+```
+
+### Categories
+
+```text
+Academics
+Admissions
+B.Tech Programs
+Campus
+College
+General Navigation
+Hostel
+Library
+PG Programs
+Placements
+Student Services & Contacts
+```
+
+---
+
+## 🚀 Installation and Setup
+
+### 1. Clone the Repository
+
+```powershell
+git clone https://github.com/tadurisrija45/VNRVJIET-Voice-FAQ-Bot.git
+cd VNRVJIET-Voice-FAQ-Bot
+```
+
+### 2. Create a Virtual Environment
 
 ```powershell
 python -m venv venv
+```
+
+Activate it:
+
+```powershell
 venv\Scripts\activate
 ```
 
@@ -133,13 +297,15 @@ pip install -r requirements.txt
 
 ### 4. Configure Environment Variables
 
-Copy `.env.example` to `.env`:
+Create the local `.env` file from the example:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Open `.env` and configure your OpenAI API key (optional — if no key is provided, the bot uses direct verified knowledge base retrieval):
+Then configure the required values in `.env`.
+
+Example:
 
 ```env
 OPENAI_API_KEY=your_actual_openai_api_key_here
@@ -147,54 +313,170 @@ PORT=5000
 DEBUG=True
 ```
 
+> Never upload your actual `.env` file or API key to GitHub.
+
 ---
 
-## ▶️ Running the Application
+## ▶️ Run the Application
 
-Start the Flask server:
+Start the Flask application:
 
 ```powershell
 python app.py
 ```
 
-Open your web browser and navigate to:
+The application will run at:
 
 ```text
 http://127.0.0.1:5000
 ```
 
----
-
-## 🧪 Testing Scenarios
-
-| Test Case | Expected Behavior |
-|---|---|
-| **1. Open Website** | Web UI loads with header, microphone, input bar, and pipeline explanation. |
-| **2. FAQ Database** | 30+ comprehensive VNR VJIET FAQ records loaded and indexed on startup. |
-| **3. Typed Question** | Submitting `"Where is VNR VJIET located?"` returns Bachupally, Hyderabad details. |
-| **4. Known FAQ Variations** | `"What is the highest package?"` correctly returns ₹48-54 LPA placement details. |
-| **5. Voice Input** | Clicking 🎤 turns red (`🔴 Listening...`), captures speech, and populates input. |
-| **6. Answer Display** | Question and Assistant answers appear in conversation stream with copy and audio controls. |
-| **7. Listen / Stop Button** | Clicking 🔊 reads answer aloud; clicking ⏹ immediately halts speech synthesis. |
-| **8. Unknown Query Handling** | Asking `"How to bake a pizza?"` safely returns: *"I'm sorry, I couldn't find that information in the VNR VJIET FAQ database."* |
-| **9. Clear Chat** | Clicking "Clear Chat" resets history and displays empty state. |
-| **10. Mobile Responsiveness** | UI flexes cleanly on mobile, tablet, and desktop viewports. |
+Open the address in Google Chrome or another supported browser.
 
 ---
 
-## ❓ Troubleshooting
+## 🧪 Testing
 
-- **Microphone Access Denied**:
-  Ensure your browser has granted microphone permissions for `http://127.0.0.1:5000` or `localhost`.
-- **Browser Compatibility**:
-  Use Google Chrome, Microsoft Edge, or Safari for the best Web Speech API experience.
-- **Port In Use**:
-  If port `5000` is already in use, change `PORT=5001` in your `.env` file.
-- **No OpenAI Key**:
-  The application automatically falls back to direct verified database answers without throwing errors.
+The following scenarios can be used to test the application.
+
+| Test                                  | Expected Result                      |
+| ------------------------------------- | ------------------------------------ |
+| Open application                      | Homepage loads successfully          |
+| Type a known FAQ                      | Relevant answer is displayed         |
+| Ask using voice                       | Speech is converted into text        |
+| Submit recognized question            | Backend returns an answer            |
+| Ask a question with different wording | Hybrid search finds the relevant FAQ |
+| Ask an unrelated question             | Safe unknown-question response       |
+| Click Listen                          | Answer is spoken aloud               |
+| Click Stop                            | Speech stops                         |
+| Clear conversation                    | Chat history is cleared              |
+| Resize browser                        | Responsive interface remains usable  |
+
+### Example Questions
+
+```text
+What is the full name of VNRVJIET?
+
+When was VNRVJIET established?
+
+Is VNRVJIET autonomous?
+
+Which university is VNRVJIET affiliated to?
+
+What is the campus address?
+
+What courses are offered?
+
+What hostel facilities are available?
+
+What library facilities are available?
+
+What are the placement facilities?
+```
 
 ---
 
-## 📜 License & Acknowledgments
+## 🔐 Security
 
-Developed for **VNR Vignana Jyothi Institute of Engineering and Technology (VNR VJIET)**.
+The project uses environment variables for sensitive configuration.
+
+The following file is intentionally excluded from Git:
+
+```text
+.env
+```
+
+The repository contains:
+
+```text
+.env.example
+```
+
+as a safe template.
+
+Never commit API keys, passwords, or other secrets to the repository.
+
+---
+
+## 🛠️ Troubleshooting
+
+### Microphone Does Not Work
+
+Allow microphone permission for:
+
+```text
+http://127.0.0.1:5000
+```
+
+Google Chrome or Microsoft Edge is recommended for browser speech recognition.
+
+### Port 5000 Already in Use
+
+Change the port value in `.env`:
+
+```env
+PORT=5001
+```
+
+Then restart the application.
+
+### OpenAI API Key Not Available
+
+If the application is configured to use direct verified FAQ retrieval when the LLM is unavailable, it can continue using the knowledge base.
+
+---
+
+## 🎯 Project Objectives
+
+The project aims to:
+
+1. Provide quick access to VNR VJIET information.
+2. Support both voice and text interaction.
+3. Improve FAQ retrieval using hybrid information-retrieval techniques.
+4. Reduce the need for manual searching.
+5. Provide grounded AI-assisted responses.
+6. Demonstrate practical integration of AI, NLP, speech technologies, and web development.
+
+---
+
+## 🔮 Future Enhancements
+
+Possible future improvements include:
+
+* Multilingual voice support
+* Telugu language support
+* More frequently updated institutional data
+* Admin interface for FAQ management
+* Analytics dashboard
+* User feedback and answer-rating system
+* Retrieval-Augmented Generation (RAG)
+* Cloud deployment
+* Mobile application
+
+---
+
+## 📜 License and Acknowledgment
+
+Developed as an academic/internship project for **VNR Vignana Jyothi Institute of Engineering and Technology (VNR VJIET)**.
+
+The project demonstrates the practical integration of:
+
+```text
+Python + Flask
+HTML + CSS + JavaScript
+NLP / Information Retrieval
+OpenAI LLM
+Speech Recognition
+Speech Synthesis
+Structured Knowledge Base
+```
+
+---
+
+## 👩‍💻 Developer
+
+**Thaduru Srija**
+
+VNR Vignana Jyothi Institute of Engineering and Technology
+
+B.Tech – Computer Science and Engineering (Data Science)
